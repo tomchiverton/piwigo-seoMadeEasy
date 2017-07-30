@@ -1,0 +1,16 @@
+Make all albums have URLs like
+https://host.name/gallery/v/name/name/name
+
+1) Apache rewrite rule for those nice URLs to 
+..../plugins/SeoMadeEasy/doRedirect.php?t=album&p=/Together '17/Tom's Mum's 65th
+
+rewriteRule /gallery/v/(.*) /photos/plugins/SeoMadeEasy/doRedirect.php?t=album&p=$1
+
+This current issues a redirect to the correct URL.
+
+2) Get Piwigo to generate nice URLs for Gallery :
+TODO
+
+Future
+* remove redirect : get include of index.php to work or something clever with mod_rewrite (rewriteMap prg ... ?)
+* similar for images
