@@ -12,5 +12,6 @@ This current issues a redirect to the correct URL.
 TODO
 
 Future
+* get into Piwigo extensions list (depends on outcome of http://piwigo.org/forum/viewtopic.php?pid=168210#p168210 )
 * remove redirect : get include of index.php to work or something clever with mod_rewrite (rewriteMap prg ... ?)
 * similar for images
