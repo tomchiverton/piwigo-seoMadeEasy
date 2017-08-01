@@ -8,10 +8,15 @@ define('SEOMADEEASY_PHPWG_ROOT_PATH','../../');
 #include( SEOMADEEASY_PHPWG_ROOT_PATH.'include/functions.inc.php' );
 #include( SEOMADEEASY_PHPWG_ROOT_PATH.'include/dblayer/functions_mysqli.inc.php' );
 
-include( SEOMADEEASY_PHPWG_ROOT_PATH . 'include/config_default.inc.php');
-include( SEOMADEEASY_PHPWG_ROOT_PATH. 'local/config/database.inc.php');
+#include( SEOMADEEASY_PHPWG_ROOT_PATH . 'include/config_default.inc.php');
+#include( SEOMADEEASY_PHPWG_ROOT_PATH. 'local/config/database.inc.php');
+#
+#include( SEOMADEEASY_PHPWG_ROOT_PATH.'include/constants.php' );
 
-include( SEOMADEEASY_PHPWG_ROOT_PATH.'include/constants.php' );
+#TODO get from config - can't include it becuase screws up path constants
+$CATEGORIES_TABLE='piwigo_categories';
+
+include( SEOMADEEASY_PHPWG_ROOT_PATH. 'local/config/database.inc.php');
 
 seoMadeEasy_db_connect($conf['db_host'], $conf['db_user'],
                  $conf['db_password'], $conf['db_base']);
@@ -21,7 +26,7 @@ $pArr=explode('/',$_GET['p']);
 
 $first=$pArr[1];
 
-$sql = 'select id,name from '.CATEGORIES_TABLE.' where name like "'.seoMadeEasy_db_real_escape_string( $first ).'" and id_uppercat is null';
+$sql = 'select id,name from '.$CATEGORIES_TABLE.' where name like "'.seoMadeEasy_db_real_escape_string( $first ).'" and id_uppercat is null';
 
 $resArr=seoMadeEasy_array_from_query($sql);
 
@@ -32,22 +37,16 @@ if( count( $resArr ) != 1 ){
 
 $last_cat = $resArr[0]['id']; //id
 
-print '1';
-print $first;
-print 'null';
+#print '1';
+#print $first;
+#print 'null';
 
-?>
-
-<hr>
-
-<?php
 for($i = 2; $i < count( $pArr) ; ++$i ){
+        #print $i;
+        #print $pArr[$i];
+        #print  $last_cat;
 
-        print $i;
-        print $pArr[$i];
-        print  $last_cat;
-
-        $sql = 'select id,name from '.CATEGORIES_TABLE.' where name like "'.seoMadeEasy_db_real_escape_string( $pArr[$i] ).'" and id_uppercat="'.seoMadeEasy_db_real_escape_string( $last_cat ).'" ';
+        $sql = 'select id,name from '.$CATEGORIES_TABLE.' where name like "'.seoMadeEasy_db_real_escape_string( $pArr[$i] ).'" and id_uppercat="'.seoMadeEasy_db_real_escape_string( $last_cat ).'" ';
 
         $resArr=seoMadeEasy_array_from_query($sql);
 
@@ -58,14 +57,19 @@ for($i = 2; $i < count( $pArr) ; ++$i ){
 
         $last_cat=$resArr[0]['id'];
 
-        print '<br>';
+#        print '<br>';
 }
 
 ?>
-<hr>
 in the end, got to 
 <?php
-var_dump($resArr[0]);
+#var_dump($resArr[0]);
+$ni = seoMadeEasy_str2url( $resArr[0]['name'] );
+print $resArr[0]['id'];
+print '-';
+print $ni ;
+
+$nic=$resArr[0]['id'] . "-" . $ni;
 ?>
 
 pretend we were never here
@@ -79,23 +83,26 @@ pretend we were never here
 
 chdir('../../');
 
-// TODO update with results of last $resArr 
+#TODO magic path
+$_SERVER['SCRIPT_URL']='/photos/index/category/'.$nic;
+$_SERVER['SCRIPT_URI']='https://rachaelandtom.info/photos/index/category/'.$nic;
+$_SERVER['PATH_INFO']='/category/'.$nic;
+$_SERVER['REQUEST_URI']='/photos/index/category/'.$nic;
+$_SERVER['SCRIPT_FILENAME']='/home/drupal/photos/index.php';
+$_['SCRIPT_NAME']= '/photos/index.php' ;
+$_['PHP_SELF']='/photos/index.php/category/'.$nic;
 
-$_SERVER['SCRIPT_URL']='/photos/index/category/193-together_17';
-$_SERVER['SCRIPT_URI']='https://rachaelandtom.info/photos/index/category/193-together_17';
-$_SERVER['PATH_INFO']='/category/193-together_17';
-$_SERVER['REQUEST_URI']='/photos/index/category/193-together_17';
-//include('index.php');
+require ('index.php');
+
 //didn't work b/c 
 /*
  
 Warning: require_once(PHPWG_ROOT_PATHthemes/bootstrapdefault/include/themecontroller.php): failed to open stream:
 */
 
-//issue a redirect instead for now
+//issue a redirect instead ?
 //TODO majic path appears from nowhere
-$ni = seoMadeEasy_str2url( $resArr[0]['name'] );
-header( 'Location: https://'.$_SERVER["HTTP_HOST"].'/photos/index/category/'.$last_cat.'-'.$ni );
+// header( 'Location: https://'.$_SERVER["HTTP_HOST"].'/photos/index/category/'.$last_cat.'-'.$ni );
 ?>
 
 <?php
