@@ -4,7 +4,8 @@ https://host.name/gallery/v/name/name/name
 1) Apache rewrite rule for those nice URLs to 
 ..../plugins/SeoMadeEasy/doRedirect.php?t=album&p=/Together '17/Tom's Mum's 65th
 
-rewriteRule /gallery/v/(.*) /photos/plugins/SeoMadeEasy/doRedirect.php?t=album&p=/$1 [P]
+        rewriteRule /gallery3/_data(.*) /photos/_data$1 [PT,L]
+        rewriteRule /gallery3/v/(.*) /photos/plugins/SeoMadeEasy/doRedirect.php?t=album&p=/$1 [PT,L,QSA,B]
 
 This current issues a redirect to the correct URL.
 
