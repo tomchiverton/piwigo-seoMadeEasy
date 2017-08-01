@@ -7,8 +7,6 @@ https://host.name/gallery/v/name/name/name
         rewriteRule /gallery3/_data(.*) /photos/_data$1 [PT,L]
         rewriteRule /gallery3/v/(.*) /photos/plugins/SeoMadeEasy/doRedirect.php?t=album&p=/$1 [PT,L,QSA,B]
 
-This current issues a redirect to the correct URL.
-
 2) Get Piwigo to generate nice URLs for Gallery :
 TODO
 
