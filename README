@@ -8,18 +8,21 @@ https://host.name/gallery/v/name/name/name
         rewriteRule /gallery3/v/(.*) /photos/plugins/SeoMadeEasy/doRedirect.php?t=album&p=/$1 [PT,L,QSA,B]
 
 2) Get Piwigo to generate nice URLs for Gallery. Requires this patch
+
 --- include/functions_url.inc.php.dist    2017-08-01 17:04:21.537746153 +0100
-+++ include/functions_url.inc.php 2017-08-01 17:11:13.410309502 +0100
-@@ -127,6 +127,8 @@
++++ include/functions_url.inc.php 2017-08-01 17:20:02.112033767 +0100
+@@ -125,8 +125,10 @@
+  * @param array
+  * @return string
   */
- function make_index_url($params = array())
+-function make_index_url($params = array())
++function make_index_url($params = array(),$int=0)
  {
-+  if( function_exists('seoMadeEasy_make_index_url') ) { return seoMadeEasy_make_index_url($params); }
++  if( $int != 1 && function_exists('seoMadeEasy_make_index_url') ) { return seoMadeEasy_make_index_url($params); }
 +
    global $conf;
    $url = get_root_url().'index';
    if ($conf['php_extension_in_urls'])
-
 
 Future
 * remove need to patch. Depends on outcome of http://piwigo.org/forum/viewtopic.php?pid=168210#p168210 
